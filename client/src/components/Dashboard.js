@@ -7,7 +7,7 @@ import { Paper, Grid, Box } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
 import Description from "./Description";
-import Search from "./Search";
+import Navbar from "./Navbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,44 +92,25 @@ export default function CenteredGrid() {
   }, []);
 
   return (
-    <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item lg={8} xs={12}>
-          <Paper className={classes.paper} style={{ textAlign: "center" }}>
-            <Grid container>
-              <Grid item lg={4} xs={12}></Grid>
-              <Grid item lg={4} xs={12}>
-                <Search
-                  setSymbol={setSymbol}
-                  symbol={symbol}
-                  getDescription={getDescription}
-                />
-              </Grid>
-              <Grid item lg={4} xs={12}></Grid>
+    <>
+      <Navbar setSymbol={setSymbol} symbol={symbol} getDescription={getDescription}/>
+      <div className={classes.root}>
+        <Grid container spacing={3}>
+          <Grid item lg={8} xs={12}>
+            <Grid item lg={12}>
+              <Paper className={classes.paper} style={{ textAlign: "center" }}>
+                {values && getChart()}
+                <Box m={3}>
+                  <Description {...desc} loading={isLoading} />
+                </Box>
+              </Paper>
             </Grid>
-          </Paper>
-        </Grid>
-        <Grid item lg={4} xs={12}>
-          <Paper className={classes.paper}>History</Paper>
-        </Grid>
-        <Grid item lg={8} xs={12}>
-          <Grid item lg={12}>
-            <Paper className={classes.paper} style={{ textAlign: "center" }}>
-              {values && getChart()}
-            </Paper>
+          </Grid>
+          <Grid item lg={4} xs={12}>
+            <Paper className={classes.paper}>History</Paper>
           </Grid>
         </Grid>
-        <Grid lg={4}></Grid>
-        <Grid item lg={8} xs={12}>
-          <Grid item xs={12}>
-            <Paper className={classes.paper} style={{ textAlign: "center" }}>
-              <Box m={3}>
-                <Description {...desc} loading={isLoading} />
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Grid>
-    </div>
+      </div>
+    </>
   );
 }
