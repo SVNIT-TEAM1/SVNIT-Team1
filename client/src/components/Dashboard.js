@@ -13,8 +13,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   paper: {
-    padding: 25,
-    textAlign: "center",
+    paddingTop: 20,
+    paddingBottom: 20,
+    textAlign: 'center',
     color: theme.palette.text.secondary,
     height: "100%",
   },
@@ -26,15 +27,15 @@ export default function CenteredGrid() {
   const [desc, setDesc] = useState("");
   const [error, setError] = useState(false);
 
-  const getDescription = async () => {
-    try {
-      const resp = await axios.get(
-        `https://cloud.iexapis.com/stable/stock/${symbol}/company?token=pk_b8deb498d27c4f6ab328db52163822a7`
-      );
-
-      console.log(resp.data);
-      setDesc(resp.data);
-    } catch (error) {
+  const getDescription = async() =>{
+    try{
+      const resp = await axios.get(`https://cloud.iexapis.com/stable/stock/${symbol}/company?token=pk_b8deb498d27c4f6ab328db52163822a7`);
+     const response = await axios.post('http://localhost:8000/companyStockData',symbol);
+     console.log(response.data);
+        console.log(resp.data);
+        setDesc(resp.data);
+        setSymbol("");
+    }catch(error){
       setError("Something went wrong");
     }
   };
@@ -46,8 +47,8 @@ export default function CenteredGrid() {
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        <Grid item xs={8}>
-          <Paper className={classes.paper}>
+        <Grid item lg={8} xs={12}>
+          <Paper className={classes.paper} style={{textAlign:"center"}}>
             <Grid container>
               <Grid item xs={3}></Grid>
               <Grid item xs={8}>
@@ -60,7 +61,7 @@ export default function CenteredGrid() {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item lg={4} xs={12}>
           <Paper className={classes.paper}>History</Paper>
         </Grid>
       </Grid>
