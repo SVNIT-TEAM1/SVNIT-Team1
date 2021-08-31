@@ -71,7 +71,7 @@ export default function CenteredGrid() {
     try {
       setIsLoading(true);
       const response = await axios.post("http://localhost:8000/history",{userId:localStorage.getItem('userId')});
-      setHistory(response.data);
+      setHistory(response.data.history);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -327,7 +327,7 @@ export default function CenteredGrid() {
                       </>
                     ) : (
                       <>
-                        {history.map((item, index) => (
+                        {history&&history.reverse().map((item, index) => (
                           <TableRow key={index}>
                             <TableCell>{item}</TableCell>
                           </TableRow>
