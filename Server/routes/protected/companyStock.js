@@ -7,8 +7,9 @@ router.post("/", function(req, res){
         var data = req.body;
         // console.log(data);
         var stocks = req.app.get("stocks");
+        console.log(req.body.userId);
         User.updateOne({
-            _id:req.body.userId
+            _id: req.body.userId
         }, {
             $push: {
                 history: data.symbol

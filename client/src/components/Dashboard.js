@@ -57,7 +57,7 @@ export default function CenteredGrid() {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [draw, setDraw] = useState(false);
-  const [history, setHistory] = useState(["AAPL", "PFE"]);
+  const [history, setHistory] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
