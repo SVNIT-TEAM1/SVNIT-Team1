@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Description = (props) => {
   <>
@@ -6,7 +6,7 @@ const Description = (props) => {
       <a href={props.website}>{props.companyName}</a>
     </h4>
     <p>{props.description}</p>
-  </>;
+  </>
 };
 
 export default Description;
