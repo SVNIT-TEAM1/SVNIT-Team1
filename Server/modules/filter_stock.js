@@ -15,7 +15,6 @@ var filter_stock = function(stockList , symbol){
         }
     })
     console.log("done")
-    console.log(filetered_stock)
     return filetered_stock
 }
 
