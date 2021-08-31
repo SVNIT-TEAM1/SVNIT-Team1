@@ -70,7 +70,7 @@ export default function CenteredGrid() {
     try {
       setIsLoading(true);
       const response = await axios.post("http://localhost:8000/history",{userId:localStorage.getItem('userId')});
-      console.log(response.data.history);
+      // console.log(response.data.history);
       setHistory(response.data.history.slice(Math.max(response.data.history.length - 10, 0)).reverse());
       setIsLoading(false);
     } catch (error) {
@@ -99,7 +99,7 @@ export default function CenteredGrid() {
   };
 
   const getChart = () => {
-    if (chart == "bar" || chart == "lines") {
+    if (chart === "bar" || chart === "lines") {
       var trace1 = {
         x: values.date,
         y: values.close,
@@ -139,10 +139,6 @@ export default function CenteredGrid() {
         high: values.high,
         low: values.low,
         open: values.open,
-
-        // cutomise colors
-        increasing: { line: { color: "black" } },
-        decreasing: { line: { color: "red" } },
 
         // cutomise colors
         increasing: { line: { color: "black" } },

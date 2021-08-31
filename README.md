@@ -79,7 +79,9 @@ To get a copy of the website running on your local system follow these steps :
 
 ## Demonstration
 
-```Images highlighting the interface comes here```
+- Dashboard
+
+<img src="./demo.jpg" />
 
 ## Design Criteria
 
