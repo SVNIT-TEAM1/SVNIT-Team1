@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from "axios";
+import {useHistory} from "react-router-dom";
 
 function Copyright() {
   return (
@@ -47,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const history=useHistory();
+  const [username,setUsername]=useState("");
+  const [password,setPassword]=useState("");
   const classes = useStyles();
 
   return (
@@ -67,6 +72,8 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            value={username}
+            onChange={(e)=>setUsername(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -78,6 +85,8 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
           />
 
           <Button
@@ -86,13 +95,20 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={async(e)=>{
+              e.preventDefault();
+              const resp = await axios.post("http://localhost:8000/signup",{username,password});
+              if(resp.data.message){
+                history.push("/dashboard");
+              }
+            }}
           >
             Sign Up
           </Button>
           <Grid container>
 
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link href="/" variant="body2">
                 {"Already have an account? Sign In"}
               </Link>
             </Grid>

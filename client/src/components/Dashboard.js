@@ -37,6 +37,7 @@ export default function CenteredGrid() {
   const [chart,setChart]=useState("ohlc");
   const [open,setOpen]=useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [history,setHistory]=useState("");
 
   const handleClickOpen = () => {
    setOpen(true);
@@ -54,8 +55,13 @@ export default function CenteredGrid() {
       );
       const response = await axios.post(
         "http://localhost:8000/companyStockData",
-        { symbol, startdate: date, range }
+        { symbol, startdate: date, range,userId:localStorage.getItem('userId')}
       );
+      const responseHist = await axios.post(
+        "http://localhost:8000/history",
+        { userId:localStorage.getItem('userId')}
+      );
+      setHistory(responseHist.data.history);
       setDesc(resp.data);
       //console.log(response.data);
       setValues(response.data);
@@ -194,7 +200,7 @@ export default function CenteredGrid() {
             </Paper>
             </Grid>
             <Grid item lg={4} xs={12}>
-              <Paper className={classes.paper}>History</Paper>
+              <Paper className={classes.paper}>{history&&history.map((h)=><><h5>{h}</h5><hr/></>)}</Paper>
             </Grid>
              <Grid item lg={8} xs={12}>
                <Grid container>
