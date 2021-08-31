@@ -1,34 +1,21 @@
 const fs = require('fs');
-const JSONStream = require('JSONStream');
-const es = require('event-stream');
 const path = require('path');
 
 
 function readJSON(){
+  
+    
+    let stockList = [];
+    
     var getStream = function () {
-        var jsonData = path.join(__dirname, '/stockList.json'),
-            stream = fs.createReadStream(jsonData, { encoding: 'utf8' }),
-            parser = JSONStream.parse('*');
-        return stream.pipe(parser);
-    };
+        var jsonData = path.join(__dirname, '/stockList.json')
+        const stream = fs.readFileSync(jsonData)
+        const parser = stream.toString();
+        return JSON.parse(stream);
+    }; 
     
-    function cb(err, data){
-        if(err!=null)
-            console.log(err);
-        else{
-            console.log("123");
-            console.log(data);
-            return data;
-        }       
-    }
-
-    getStream()
-        .pipe(es.mapSync(function (data) {
-            console.log(data);
-            console.log("123");
-            return data;
-        }));
-    
+    stockList = getStream()
+    return stockList;
 }
 
 module.exports = readJSON;
