@@ -81,7 +81,7 @@ const Description = (props) => {
       </AppBar>
       <TabPanel value={tab} index={0}>
         <Typography variant="h4">
-          <Link target="_blank" href={"https://" + props.website}>
+          <Link target="_blank" href={props.website}>
           {props.loading ? <Skeleton /> : props.companyName}
           </Link>
         </Typography>

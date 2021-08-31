@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Plot from 'react-plotly.js';
+import Plot  from 'react-plotly.js';
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper, Grid, Box } from "@material-ui/core";
+import { Paper, Grid, Box, FormLabel, FormControlLabel, FormControl, RadioGroup, Radio } from "@material-ui/core";
 
 import Description from "./Description";
 import Search from "./Search";
@@ -29,6 +29,7 @@ export default function CenteredGrid() {
   const [values,setValues]=useState("");
   const [date,setDate]=useState("2021-08-01");
   const [range,setRange]=useState("MONTHLY");
+  const [type,setType]=useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const getDescription = async() =>{
@@ -49,7 +50,7 @@ export default function CenteredGrid() {
   const getChart=()=>{
 
     var trace = {
-  x: values.row,
+  x: values.date,
   close: values.close,
   high: values.high,
   low: values.low,
@@ -104,9 +105,27 @@ return(
               <Paper className={classes.paper}>History</Paper>
             </Grid>
              <Grid item lg={8} xs={12}>
-              <Grid item lg={12}>
-            <Paper className={classes.paper} style={{ textAlign: "center" }}>{values&&getChart()}</Paper>
-            </Grid>
+               <Grid container>
+                 <Grid item lg={3}>
+               <Paper className={classes.paper} style={{ textAlign: "center" }}>
+                 <FormControl component="fieldset">
+  <FormLabel component="legend">Chart Type</FormLabel>
+  <RadioGroup aria-label="gender" name="gender1" value={type} onChange={(e)=>setType(e.target.value)}>
+    <FormControlLabel value="female" control={<Radio color="primary"/>} label="Female" />
+    <FormControlLabel value="male" control={<Radio color="primary"/>} label="Male" />
+    <FormControlLabel value="other" control={<Radio color="primary"/>} label="Other" />
+  </RadioGroup>
+</FormControl>
+
+
+             </Paper>
+
+               </Grid>
+                <Grid item lg={9}>
+              <Paper className={classes.paper} style={{ textAlign: "center" }}>{values&&getChart()}</Paper>
+              </Grid>
+               </Grid>
+
           </Grid>
           <Grid lg={4}></Grid>
           <Grid item lg={8} xs={12}>
