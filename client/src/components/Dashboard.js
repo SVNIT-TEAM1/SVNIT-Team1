@@ -9,9 +9,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Skeleton } from "@material-ui/lab";
-
-import Description from "./Description";
 import Search from "./Search";
+import Description from "./Description";
+import Navbar from "./Navbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -176,6 +176,7 @@ export default function CenteredGrid() {
           </Button>
         </DialogActions>
       </Dialog>
+
       <Grid container spacing={3}>
         <Grid item lg={8} xs={12}>
           <Paper className={classes.paper} style={{ textAlign: "center" }}>
@@ -246,6 +247,7 @@ export default function CenteredGrid() {
           </Grid>
         </Grid>
       </Grid>
-    </div>
+      </div>
+
   );
 }
