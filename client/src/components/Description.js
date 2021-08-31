@@ -123,7 +123,7 @@ const Description = (props) => {
                   <TableCell>Tags</TableCell>
                   <TableCell className={classes.flex}>
                     {props.tags.map((tag, index) => (
-                      <Chip label={tag} />
+                      <Chip label={tag} key={tag} />
                     ))}
                   </TableCell>
                 </TableRow>

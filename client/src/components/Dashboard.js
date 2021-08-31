@@ -29,7 +29,6 @@ import { Skeleton } from "@material-ui/lab";
 
 import Description from "./Description";
 import Navbar from "./Navbar";
-import History from "./History";
 require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
@@ -71,7 +70,8 @@ export default function CenteredGrid() {
     try {
       setIsLoading(true);
       const response = await axios.post("http://localhost:8000/history",{userId:localStorage.getItem('userId')});
-      setHistory(response.data);
+      console.log(response.data.history);
+      setHistory(response.data.history.slice(Math.max(response.data.history.length - 10, 0)).reverse());
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -319,11 +319,11 @@ export default function CenteredGrid() {
                   <TableBody>
                     {isLoading ? (
                       <>
-                        <Skeleton component="TableRow" />
-                        <Skeleton component="TableRow" />
-                        <Skeleton component="TableRow" />
-                        <Skeleton component="TableRow" />
-                        <Skeleton component="TableRow" />
+                        <Skeleton component="tr" />
+                        <Skeleton component="tr" />
+                        <Skeleton component="tr" />
+                        <Skeleton component="tr" />
+                        <Skeleton component="tr" />
                       </>
                     ) : (
                       <>
