@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Plot from 'react-plotly.js';
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Grid, Box } from "@material-ui/core";
@@ -25,6 +26,7 @@ export default function CenteredGrid() {
   const [symbol, setSymbol] = useState("AAPL");
   const [desc, setDesc] = useState({});
   const [error, setError] = useState(false);
+  const [values,setValues]=useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const getDescription = async () => {
@@ -40,15 +42,52 @@ export default function CenteredGrid() {
       console.log(response.data);
       console.log(resp.data);
       setDesc(resp.data);
+      setValues(response.data);
       setIsLoading(false);
     } catch (error) {
       setError("Something went wrong");
     }
   };
 
+  const getChart=()=>{
+
+    var trace = {
+  x: values.row,
+  close: values.close,
+  high: values.high,
+  low: values.low,
+  open: values.open,
+
+  // cutomise colors
+  increasing: {line: {color: 'black'}},
+  decreasing: {line: {color: 'red'}},
+
+  type: 'ohlc',
+  xaxis: 'x',
+  yaxis: 'y'
+};
+
+var data = [trace];
+
+var layout = {
+  dragmode: 'zoom',
+  showlegend: false,
+  xaxis: {
+    rangeslider: {
+		 visible: false
+	 }
+  }
+};
+return(
+  <Grid item lg={12}><Plot data={data} layout={layout}/></Grid>
+)
+}
+
+
+
   useEffect(() => {
     getDescription();
-  }, [symbol]);
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -56,15 +95,15 @@ export default function CenteredGrid() {
         <Grid item lg={8} xs={12}>
           <Paper className={classes.paper} style={{ textAlign: "center" }}>
             <Grid container>
-              <Grid item xs={3}></Grid>
-              <Grid item xs={8}>
-                <Search
-                  setSymbol={setSymbol}
-                  symbol={symbol}
-                  getDescription={getDescription}
-                />
+              <Grid item lg={4} xs={12}></Grid>
+              <Grid item lg={4} xs={12}>
+                <Search setSymbol={setSymbol} symbol={symbol} getDescription={getDescription} />
               </Grid>
-              <Grid item xs={1}></Grid>
+              <Grid item lg={4} xs={12}></Grid>
+              <Grid item lg={12}>
+              {values&&getChart()}
+            </Grid>
+
               <Grid item xs={12}>
                 <Box m={3}>
                   <Description {...desc} loading={isLoading} />

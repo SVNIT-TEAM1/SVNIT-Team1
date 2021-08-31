@@ -47,7 +47,7 @@ const TabPanel = (props) => {
 };
 
 const Description = (props) => {
-    console.log(props.loading);
+    // console.log(props.loading);
   const [tab, setTab] = React.useState(0);
   const classes = useStyles();
   const detailKeys = [
