@@ -10,8 +10,8 @@ var filter_stock = (stockList , symbol , range , start) =>{
     else{
       enddate.setMonth(enddate.getMonth() + 1)
     }
-    console.log(start ," ",start.slice(0,4),start.slice(5,7) ,start.slice(8,10)," ",startdate)
-    console.log(enddate)
+    //console.log(start ," ",start.slice(0,4),start.slice(5,7) ,start.slice(8,10)," ",startdate)
+   // console.log(enddate)
     
     
     let filetered_stock = { symbol , close:[] , high: [] , low: [] , open: [] , volume: [] , date: [] }
@@ -21,7 +21,7 @@ var filter_stock = (stockList , symbol , range , start) =>{
         
     
         if(stock.symbol == symbol && startdate.getTime() <= dd.getTime() && dd.getTime() <= enddate.getTime()  ){
-            console.log(date)
+          //  console.log(date)
             filetered_stock.close.push(stock.close)
             filetered_stock.high.push(stock.high)
             filetered_stock.low.push(stock.low)

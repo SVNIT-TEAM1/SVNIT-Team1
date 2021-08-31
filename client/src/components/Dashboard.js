@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Plot from 'react-plotly.js';
+import Plot from "react-plotly.js";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Grid, Box } from "@material-ui/core";
@@ -27,7 +27,9 @@ export default function CenteredGrid() {
   const [symbol, setSymbol] = useState("AAPL");
   const [desc, setDesc] = useState({});
   const [error, setError] = useState(false);
-  const [values,setValues]=useState("");
+  const [values, setValues] = useState("");
+  const [date, setDate] = useState("2021-08-01");
+  const [range, setRange] = useState("MONTHLY");
   const [isLoading, setIsLoading] = useState(true);
 
   const getDescription = async () => {
@@ -38,53 +40,52 @@ export default function CenteredGrid() {
       );
       const response = await axios.post(
         "http://localhost:8000/companyStockData",
-        symbol
+        { symbol, startdate: date, range }
       );
-      console.log(response.data);
-      console.log(resp.data);
       setDesc(resp.data);
+      //console.log(response.data);
       setValues(response.data);
       setIsLoading(false);
+      setSymbol("");
     } catch (error) {
       setError("Something went wrong");
     }
   };
 
-  const getChart=()=>{
-
+  const getChart = () => {
     var trace = {
-  x: values.row,
-  close: values.close,
-  high: values.high,
-  low: values.low,
-  open: values.open,
+      x: values.row,
+      close: values.close,
+      high: values.high,
+      low: values.low,
+      open: values.open,
 
-  // cutomise colors
-  increasing: {line: {color: 'black'}},
-  decreasing: {line: {color: 'red'}},
+      // cutomise colors
+      increasing: { line: { color: "black" } },
+      decreasing: { line: { color: "red" } },
 
-  type: 'ohlc',
-  xaxis: 'x',
-  yaxis: 'y'
-};
+      type: "ohlc",
+      xaxis: "x",
+      yaxis: "y",
+    };
 
-var data = [trace];
+    var data = [trace];
 
-var layout = {
-  dragmode: 'zoom',
-  showlegend: false,
-  xaxis: {
-    rangeslider: {
-		 visible: false
-	 }
-  }
-};
-return(
-  <Grid item lg={12}><Plot data={data} layout={layout}/></Grid>
-)
-}
-
-
+    var layout = {
+      dragmode: "zoom",
+      showlegend: false,
+      xaxis: {
+        rangeslider: {
+          visible: false,
+        },
+      },
+    };
+    return (
+      <Grid item lg={12}>
+        <Plot data={data} layout={layout} />
+      </Grid>
+    );
+  };
 
   useEffect(() => {
     getDescription();
@@ -98,23 +99,35 @@ return(
             <Grid container>
               <Grid item lg={4} xs={12}></Grid>
               <Grid item lg={4} xs={12}>
-                <Search setSymbol={setSymbol} symbol={symbol} getDescription={getDescription} />
+                <Search
+                  setSymbol={setSymbol}
+                  symbol={symbol}
+                  getDescription={getDescription}
+                />
               </Grid>
               <Grid item lg={4} xs={12}></Grid>
-              <Grid item lg={12}>
-              {isLoading ? (<Skeleton component="img" />) : getChart()}
-            </Grid>
-
-              <Grid item xs={12}>
-                <Box m={3}>
-                  <Description {...desc} loading={isLoading} />
-                </Box>
-              </Grid>
             </Grid>
           </Paper>
         </Grid>
         <Grid item lg={4} xs={12}>
           <Paper className={classes.paper}>History</Paper>
+        </Grid>
+        <Grid item lg={8} xs={12}>
+          <Grid item lg={12}>
+            <Paper className={classes.paper} style={{ textAlign: "center" }}>
+              {values && getChart()}
+            </Paper>
+          </Grid>
+        </Grid>
+        <Grid lg={4}></Grid>
+        <Grid item lg={8} xs={12}>
+          <Grid item xs={12}>
+            <Paper className={classes.paper} style={{ textAlign: "center" }}>
+              <Box m={3}>
+                <Description {...desc} loading={isLoading} />
+              </Box>
+            </Paper>
+          </Grid>
         </Grid>
       </Grid>
     </div>
