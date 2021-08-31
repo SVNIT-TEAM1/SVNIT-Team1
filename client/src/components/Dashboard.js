@@ -3,8 +3,7 @@ import axios from "axios";
 import Plot from 'react-plotly.js';
 
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+import { Paper, Grid, Box } from "@material-ui/core";
 
 import Description from "./Description";
 import Search from "./Search";
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     paddingTop: 20,
     paddingBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
     height: "100%",
   },
@@ -25,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CenteredGrid() {
   const classes = useStyles();
   const [symbol, setSymbol] = useState("AAPL");
-  const [desc, setDesc] = useState("");
+  const [desc, setDesc] = useState({});
   const [error, setError] = useState(false);
   const [values,setValues]=useState("");
 
@@ -86,7 +85,7 @@ return(
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item lg={8} xs={12}>
-          <Paper className={classes.paper} style={{textAlign:"center"}}>
+          <Paper className={classes.paper} style={{ textAlign: "center" }}>
             <Grid container>
               <Grid item lg={4} xs={12}></Grid>
               <Grid item lg={4} xs={12}>
@@ -98,7 +97,9 @@ return(
             </Grid>
 
               <Grid item xs={12}>
-                <Description {...desc} />
+                <Box m={3}>
+                  <Description {...desc} />
+                </Box>
               </Grid>
             </Grid>
           </Paper>
