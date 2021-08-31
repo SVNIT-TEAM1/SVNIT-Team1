@@ -19,11 +19,17 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  Typography,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
 import Description from "./Description";
 import Navbar from "./Navbar";
+import History from "./History";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,6 +55,8 @@ export default function CenteredGrid() {
   const [chart, setChart] = useState("ohlc");
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [draw, setDraw] = useState(false);
+  const [history, setHistory] = useState(["AAPL", "AAPL"]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -56,6 +64,17 @@ export default function CenteredGrid() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const getHistory = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.post("http://localhost:8000/history");
+      setHistory(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getDescription = async () => {
@@ -71,6 +90,7 @@ export default function CenteredGrid() {
       setDesc(resp.data);
       //console.log(response.data);
       setValues(response.data);
+      getHistory();
       setIsLoading(false);
     } catch (error) {
       setError("Something went wrong");
@@ -156,6 +176,14 @@ export default function CenteredGrid() {
     getDescription();
   }, []);
 
+  const handleDrawerOpen = () => {
+    setDraw(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDraw(false);
+  };
+
   return (
     <>
       <Dialog
@@ -200,16 +228,15 @@ export default function CenteredGrid() {
         setSymbol={setSymbol}
         symbol={symbol}
         getDescription={getDescription}
+        handleDrawerOpen={handleDrawerOpen}
+        open={draw}
       />
       <div className={classes.root}>
         <Box m={3}>
           <Grid container spacing={3}>
             <Grid item lg={8} xs={12}>
-                <Paper
-                  className={classes.paper}
-                  style={{ textAlign: "center" }}
-                >
-              <Grid container>
+              <Paper className={classes.paper} style={{ textAlign: "center" }}>
+                <Grid container>
                   <Grid item lg={3}>
                     <Grid container style={{ textAlign: "center" }}>
                       <Grid item lg={12}>
@@ -280,12 +307,36 @@ export default function CenteredGrid() {
                       <Description {...desc} loading={isLoading} />
                     </Box>
                   </Grid>
-              </Grid>
-                </Paper>
+                </Grid>
+              </Paper>
             </Grid>
 
             <Grid item lg={4} xs={12}>
-              <Paper className={classes.paper}>History</Paper>
+              <Paper className={classes.paper}>
+                <Typography variant="h4">History</Typography>
+                <Table>
+                  <TableBody>
+                    {isLoading ? (
+                      <>
+                        <Skeleton component="TableRow" />
+                        <Skeleton component="TableRow" />
+                        <Skeleton component="TableRow" />
+                        <Skeleton component="TableRow" />
+                        <Skeleton component="TableRow" />
+                      </>
+                    ) : (
+                      <>
+                        {history.map((item, index) => (
+                          <TableRow key={index}>
+                            <TableCell>{item}</TableCell>
+                          </TableRow>
+                        ))}
+                      </>
+                    )}
+                  </TableBody>
+                </Table>
+              </Paper>
+              <History open={draw} handleDrawerClose={handleDrawerClose} />
             </Grid>
           </Grid>
         </Box>
