@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 25,
     textAlign: "center",
     color: theme.palette.text.secondary,
+    height: "100%",
   },
 }));
 
@@ -50,15 +51,17 @@ export default function CenteredGrid() {
             <Grid container>
               <Grid item xs={3}></Grid>
               <Grid item xs={8}>
-                <Search setSymbol={setSymbol} getDescription={getDescription} />
+                <Search setSymbol={setSymbol} symbol={symbol} getDescription={getDescription} />
               </Grid>
               <Grid item xs={1}></Grid>
+              <Grid item xs={12}>
+                <Description {...desc} />
+              </Grid>
             </Grid>
           </Paper>
         </Grid>
         <Grid item xs={4}>
           <Paper className={classes.paper}>History</Paper>
-          <Description {...desc} />
         </Grid>
       </Grid>
     </div>

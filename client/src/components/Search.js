@@ -42,6 +42,7 @@ export default function CustomizedInputBase(props) {
         placeholder="Search..."
         inputProps={{ 'aria-label': 'search' }}
         onChange={(e)=>props.setSymbol(e.target.value)}
+        value={props.symbol}
       />
       <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={async(e)=>{
         e.preventDefault();
