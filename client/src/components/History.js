@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 const History = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const { open, handleDrawerOpen, handleDrawerClose, history } = props;
+  const { open, handleDrawerOpen, handleDrawerClose, history/*, setSymbol*/ } = props;
 
   return (
     <div className={classes.root}>
@@ -87,7 +87,7 @@ const History = (props) => {
         <Divider />
         <List>
           {history.map((text, index) => (
-            <ListItem button key={text}>
+            <ListItem /*onClick={setSymbol(text)}*/ button key={text}>
               <ListItemText primary={text} />
             </ListItem>
           ))}
