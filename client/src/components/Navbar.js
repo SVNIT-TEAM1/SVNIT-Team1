@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import MenuIcon from "@material-ui/icons/Menu";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = (props) => {
+  const history=useHistory();
   const classes = useStyles();
 
   return (
@@ -92,10 +94,13 @@ const Navbar = (props) => {
             </IconButton>
           </Paper>
 
-          <Button className={classes.button} color="inherit">
+          <Button className={classes.button} color="inherit" onClick={()=>{
+              localStorage.removeItem('userId');
+              history.push("/");
+            }}>
             Logout
           </Button>
-          <Button
+          {/*}<Button
             className={classes.button}
             onClick={props.handleDrawerOpen}
             className={clsx(props.open && classes.hide)}
@@ -103,7 +108,7 @@ const Navbar = (props) => {
           >
             <MenuIcon />
             History
-          </Button>
+          </Button>*/}
         </Toolbar>
       </AppBar>
     </div>

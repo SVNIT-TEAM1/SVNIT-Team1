@@ -3,12 +3,13 @@ const filter_stock = require("./../../modules/filter_stock.js")
 const User = require("./../../modals/user.js");
 
 router.post("/", function(req, res){
-    if(req.isAuthenticated()){
+  
         var data = req.body;
         // console.log(data);
         var stocks = req.app.get("stocks");
+        console.log(req.body.userId);
         User.updateOne({
-            username: req.user.username 
+            _id: req.body.userId
         }, {
             $push: {
                 history: data.symbol
@@ -20,9 +21,7 @@ router.post("/", function(req, res){
         });
         var out = filter_stock(stocks, data.symbol, data.range , data.startdate);
         res.send(out);
-    }else{
-        res.sendStatus(404);
-    }  
+
 });
 
 module.exports = router;

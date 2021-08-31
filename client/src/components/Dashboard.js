@@ -57,7 +57,7 @@ export default function CenteredGrid() {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [draw, setDraw] = useState(false);
-  const [history, setHistory] = useState(["AAPL", "PFE"]);
+  const [history, setHistory] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -70,7 +70,7 @@ export default function CenteredGrid() {
   const getHistory = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.post("http://localhost:8000/history");
+      const response = await axios.post("http://localhost:8000/history",{userId:localStorage.getItem('userId')});
       setHistory(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -82,12 +82,11 @@ export default function CenteredGrid() {
     try {
       setIsLoading(true);
       const resp = await axios.get(
-        `https://cloud.iexapis.com/stable/stock/${symbol}/company`,
-        { params: { token: process.env.token } }
+        `https://cloud.iexapis.com/stable/stock/${symbol}/company?token=pk_b8deb498d27c4f6ab328db52163822a7`,
       );
       const response = await axios.post(
         "http://localhost:8000/companyStockData",
-        { symbol, startdate: date, range }
+        { symbol, startdate: date, range, userId:localStorage.getItem('userId') }
       );
       setDesc(resp.data);
       //console.log(response.data);
@@ -236,7 +235,7 @@ export default function CenteredGrid() {
       <div className={classes.root}>
         <Box m={3}>
           <Grid container spacing={3}>
-            <Grid item lg={12} xs={12}>
+            <Grid item lg={8} xs={12}>
               <Paper className={classes.paper} style={{ textAlign: "center" }}>
                 <Grid container>
                   <Grid item lg={3} xs={12}>
@@ -313,9 +312,9 @@ export default function CenteredGrid() {
               </Paper>
             </Grid>
 
-            {/*<Grid item lg={4} xs={12}>
+            <Grid item lg={4} xs={12}>
               <Paper className={classes.paper}>
-                <Typography variant="h4">History</Typography>
+                <Typography variant="h5">History</Typography>
                 <Table>
                   <TableBody>
                     {isLoading ? (
@@ -338,13 +337,12 @@ export default function CenteredGrid() {
                   </TableBody>
                 </Table>
               </Paper>
-                        </Grid>*/}
-            <History
+                        </Grid>
+            {/*}<History
               open={draw}
               handleDrawerClose={handleDrawerClose}
               history={history}
-              /*setSymbol={setSymbol}*/
-            />
+            />*/}
           </Grid>
         </Box>
       </div>

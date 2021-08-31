@@ -92,7 +92,7 @@ const Description = (props) => {
                   : "https://" + props.website
               }
             >
-              props.companyName
+              {props.companyName}
             </Link>
           )}
         </Typography>

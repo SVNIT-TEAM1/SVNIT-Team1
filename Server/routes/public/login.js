@@ -9,18 +9,18 @@ router.post("/", function(req,res){
         username : req.body.username,
         password : req.body.password
       });
-    
+
       req.login(user, function(err){
         if(err){
           console.log(err);
           res.sendStatus(404);
         } else{
           passport.authenticate("local")(req, res, function(){
-            res.sendStatus(200);
+            res.json({message:'Success',user:req.user});
           });
         }
       });
-  
+
   });
 
 
