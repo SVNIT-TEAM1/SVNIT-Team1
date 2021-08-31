@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Plot from "react-plotly.js";
-
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -14,14 +13,14 @@ import {
   Radio,
   TextField,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
 } from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import { Skeleton } from "@material-ui/lab";
-
+import Search from "./Search";
 import Description from "./Description";
 import Navbar from "./Navbar";
 
@@ -157,7 +156,7 @@ export default function CenteredGrid() {
   }, []);
 
   return (
-    <>
+    <div className={classes.root}>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -196,100 +195,109 @@ export default function CenteredGrid() {
         </DialogActions>
       </Dialog>
 
-      <Navbar
-        setSymbol={setSymbol}
-        symbol={symbol}
-        getDescription={getDescription}
-      />
-      <div className={classes.root}>
-        <Box m={3}>
-          <Grid container spacing={3}>
-            <Grid item lg={8} xs={12}>
-                <Paper
-                  className={classes.paper}
-                  style={{ textAlign: "center" }}
-                >
-              <Grid container>
-                  <Grid item lg={3}>
-                    <Grid container style={{ textAlign: "center" }}>
-                      <Grid item lg={12}>
-                        <FormControl component="fieldset">
-                          <FormLabel component="legend">Chart Type</FormLabel>
-                          <RadioGroup
-                            aria-label="chart"
-                            name="chart"
-                            value={chart}
-                            onChange={(e) => setChart(e.target.value)}
-                          >
-                            <FormControlLabel
-                              value="ohlc"
-                              control={<Radio color="primary" />}
-                              label="OHLC"
-                            />
-                            <FormControlLabel
-                              value="candlestick"
-                              control={<Radio color="primary" />}
-                              label="Candlestick"
-                            />
-                            <FormControlLabel
-                              value="bar"
-                              control={<Radio color="primary" />}
-                              label="Colored Bar"
-                            />
-                            <FormControlLabel
-                              value="lines"
-                              control={<Radio color="primary" />}
-                              label="Vertex Line"
-                            />
-                          </RadioGroup>
-                        </FormControl>
-                      </Grid>
-                      <Grid item lg={12} style={{ marginTop: 20 }}>
-                        <FormControl component="fieldset">
-                          <FormLabel component="legend">Filters</FormLabel>
-                          <RadioGroup
-                            aria-label="range"
-                            name="range"
-                            value={range}
-                            onChange={(e) => {
-                              setRange(e.target.value);
-                              setOpen(true);
-                            }}
-                          >
-                            <FormControlLabel
-                              value="MONTHLY"
-                              control={<Radio color="primary" />}
-                              label="Monthly"
-                            />
-                            <FormControlLabel
-                              value="WEEKLY"
-                              control={<Radio color="primary" />}
-                              label="Weekly"
-                            />
-                          </RadioGroup>
-                        </FormControl>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
-                  <Grid item lg={9}>
-                    {values && getChart()}
-                  </Grid>
-                  <Grid item lg={12}>
-                    <Box m={3}>
-                      <Description {...desc} loading={isLoading} />
-                    </Box>
-                  </Grid>
+      <Grid container spacing={3}>
+        <Grid item lg={8} xs={12}>
+          <Paper className={classes.paper} style={{ textAlign: "center" }}>
+            <Grid container>
+              <Grid item lg={4} xs={12}></Grid>
+              <Grid item lg={4} xs={12}>
+                <Search
+                  setSymbol={setSymbol}
+                  symbol={symbol}
+                  getDescription={getDescription}
+                />
               </Grid>
-                </Paper>
+              <Grid item lg={4} xs={12}></Grid>
             </Grid>
-
-            <Grid item lg={4} xs={12}>
-              <Paper className={classes.paper}>History</Paper>
+          </Paper>
+        </Grid>
+        <Grid item lg={4} xs={12}>
+          <Paper className={classes.paper}>History</Paper>
+        </Grid>
+        <Grid item lg={8} xs={12}>
+          <Grid container>
+            <Grid item lg={3}>
+              <Paper className={classes.paper} style={{ textAlign: "center" }}>
+                <Grid container style={{ textAlign: "center" }}>
+                  <Grid item lg={12}>
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend">Chart Type</FormLabel>
+                      <RadioGroup
+                        aria-label="chart"
+                        name="chart"
+                        value={chart}
+                        onChange={(e) => setChart(e.target.value)}
+                      >
+                        <FormControlLabel
+                          value="ohlc"
+                          control={<Radio color="primary" />}
+                          label="OHLC"
+                        />
+                        <FormControlLabel
+                          value="candlestick"
+                          control={<Radio color="primary" />}
+                          label="Candlestick"
+                        />
+                        <FormControlLabel
+                          value="bar"
+                          control={<Radio color="primary" />}
+                          label="Colored Bar"
+                        />
+                        <FormControlLabel
+                          value="lines"
+                          control={<Radio color="primary" />}
+                          label="Vertex Line"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
+                  <Grid item lg={12} style={{ marginTop: 20 }}>
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend">Filters</FormLabel>
+                      <RadioGroup
+                        aria-label="range"
+                        name="range"
+                        value={range}
+                        onChange={(e) => {
+                          setRange(e.target.value);
+                          setOpen(true);
+                        }}
+                      >
+                        <FormControlLabel
+                          value="MONTHLY"
+                          control={<Radio color="primary" />}
+                          label="Monthly"
+                        />
+                        <FormControlLabel
+                          value="WEEKLY"
+                          control={<Radio color="primary" />}
+                          label="Weekly"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Grid>
+            <Grid item lg={9}>
+              <Paper className={classes.paper} style={{ textAlign: "center" }}>
+                {values && getChart()}
+              </Paper>
             </Grid>
           </Grid>
-        </Box>
-      </div>
-    </>
+        </Grid>
+
+        <Grid lg={4}></Grid>
+        <Grid item lg={8} xs={12}>
+          <Grid item xs={12}>
+            <Paper className={classes.paper} style={{ textAlign: "center" }}>
+              <Box m={3}>
+                <Description {...desc} loading={isLoading} />
+              </Box>
+            </Paper>
+          </Grid>
+        </Grid>
+      </Grid>
+    </div>
   );
 }
