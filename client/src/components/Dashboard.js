@@ -4,6 +4,7 @@ import Plot from 'react-plotly.js';
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Grid, Box } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 
 import Description from "./Description";
 import Search from "./Search";
@@ -101,7 +102,7 @@ return(
               </Grid>
               <Grid item lg={4} xs={12}></Grid>
               <Grid item lg={12}>
-              {values&&getChart()}
+              {isLoading ? (<Skeleton component="img" />) : getChart()}
             </Grid>
 
               <Grid item xs={12}>
