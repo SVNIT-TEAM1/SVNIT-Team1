@@ -40,7 +40,6 @@ export default function CustomizedInputBase(props) {
       <InputBase
         className={classes.input}
         placeholder="Search..."
-        value={props.symbol}
         inputProps={{ 'aria-label': 'search' }}
         onChange={(e)=>props.setSymbol(e.target.value)}
       />
