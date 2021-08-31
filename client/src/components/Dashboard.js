@@ -27,11 +27,13 @@ export default function CenteredGrid() {
   const [desc, setDesc] = useState({});
   const [error, setError] = useState(false);
   const [values,setValues]=useState("");
+  const [date,setDate]=useState("2021-08-01");
+  const [range,setRange]=useState("MONTHLY");
 
   const getDescription = async() =>{
     try{
       const resp = await axios.get(`https://cloud.iexapis.com/stable/stock/${symbol}/company?token=pk_b8deb498d27c4f6ab328db52163822a7`);
-     const response = await axios.post('http://localhost:8000/companyStockData',{symbol});
+     const response = await axios.post('http://localhost:8000/companyStockData',{symbol,startdate:date,range});
         setDesc(resp.data);
         console.log(response.data);
         setValues(response.data);
@@ -92,21 +94,25 @@ return(
                 <Search setSymbol={setSymbol} symbol={symbol} getDescription={getDescription} />
               </Grid>
               <Grid item lg={4} xs={12}></Grid>
-              <Grid item lg={12}>
-              {values&&getChart()}
+              </Grid>
+            </Paper>
             </Grid>
-
+            <Grid item lg={4} xs={12}>
+              <Paper className={classes.paper}>History</Paper>
+            </Grid>
+             <Grid item lg={8} xs={12}>
+              <Grid item lg={12}>
+            <Paper className={classes.paper} style={{ textAlign: "center" }}>{values&&getChart()}</Paper>
+            </Grid>
+          </Grid>
+          <Grid lg={4}></Grid>
+          <Grid item lg={8} xs={12}>
               <Grid item xs={12}>
-                <Box m={3}>
+                <Paper className={classes.paper} style={{ textAlign: "center" }}><Box m={3}>
                   <Description {...desc} />
-                </Box>
+                </Box></Paper>
               </Grid>
             </Grid>
-          </Paper>
-        </Grid>
-        <Grid item lg={4} xs={12}>
-          <Paper className={classes.paper}>History</Paper>
-        </Grid>
       </Grid>
     </div>
   );
