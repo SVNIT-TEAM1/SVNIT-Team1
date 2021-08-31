@@ -7,12 +7,12 @@ const readJSON = require("./modules/readJSON.js");
 
 const read = new Promise(function(resolve, reject){
     let stocks = readJSON();
-    console.log("1");
+    //console.log("1");
     resolve(stocks);
 })
 
 read.then((values) => {
-  console.log("2");
+  //console.log("2");
   var stocks = values;
   app.set("stocks", stocks);
 }).catch((err) => {
