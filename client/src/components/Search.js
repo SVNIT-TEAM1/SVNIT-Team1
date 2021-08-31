@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
+import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -40,11 +41,10 @@ export default function CustomizedInputBase(props) {
       <InputBase
         className={classes.input}
         placeholder="Search..."
-        inputProps={{ 'aria-label': 'search' }}
-        onChange={(e)=>props.setSymbol(e.target.value)}
         value={props.symbol}
+        onChange={(e)=>props.setSymbol(e.target.value)}
       />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={async(e)=>{
+    <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={async(e)=>{
         e.preventDefault();
         await props.getDescription();
       }}>
