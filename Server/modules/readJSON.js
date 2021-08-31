@@ -7,7 +7,6 @@ function readJSON(){
     
     let stockList = [];
     
-    
     var getStream = function () {
         var jsonData = path.join(__dirname, '/stockList.json')
         const stream = fs.readFileSync(jsonData)
@@ -18,6 +17,5 @@ function readJSON(){
     stockList = getStream()
     return stockList;
 }
-
 
 module.exports = readJSON;

@@ -7,17 +7,19 @@ const readJSON = require("./modules/readJSON.js");
 
 const read = new Promise(function(resolve, reject){
     let stocks = readJSON();
-    return stocks;
+    console.log("1");
+    resolve(stocks);
 })
 
-let stocks = [];
-
 read.then((values) => {
-  stocks = values;
-  console.log(stocks);
+  console.log("2");
+  var stocks = values;
+  app.set("stocks", stocks);
 }).catch((err) => {
   console.log(err);
 })
+
+
 //app instance
 const app = express();
 const port = process.env.PORT || 8000;

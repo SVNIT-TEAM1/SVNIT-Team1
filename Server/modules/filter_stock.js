@@ -1,4 +1,6 @@
-function filter_stock(stockList , symbol){
+
+
+var filter_stock = function(stockList , symbol){
     
     const filtered_stock = stockList.filter( (stock) => stock.symbol == symbol  )
 
@@ -12,7 +14,7 @@ function filter_stock(stockList , symbol){
                                             ))
 }
 
-modules.export = filter_stock
+module.exports = filter_stock;
 
 
 
