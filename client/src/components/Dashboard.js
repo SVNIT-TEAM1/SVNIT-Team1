@@ -25,9 +25,11 @@ export default function CenteredGrid() {
   const [symbol, setSymbol] = useState("AAPL");
   const [desc, setDesc] = useState({});
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getDescription = async () => {
     try {
+      setIsLoading(true);
       const resp = await axios.get(
         `https://cloud.iexapis.com/stable/stock/${symbol}/company?token=pk_b8deb498d27c4f6ab328db52163822a7`
       );
@@ -38,7 +40,7 @@ export default function CenteredGrid() {
       console.log(response.data);
       console.log(resp.data);
       setDesc(resp.data);
-      setSymbol("");
+      setIsLoading(false);
     } catch (error) {
       setError("Something went wrong");
     }
@@ -65,7 +67,7 @@ export default function CenteredGrid() {
               <Grid item xs={1}></Grid>
               <Grid item xs={12}>
                 <Box m={3}>
-                  <Description {...desc} />
+                  <Description {...desc} loading={isLoading} />
                 </Box>
               </Grid>
             </Grid>
