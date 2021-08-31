@@ -58,7 +58,7 @@ export default function CenteredGrid() {
         </Grid>
         <Grid item xs={4}>
           <Paper className={classes.paper}>History</Paper>
-  {/*<Description data={desc} />*/}
+          <Description {...desc} />
         </Grid>
       </Grid>
     </div>
