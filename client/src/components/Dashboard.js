@@ -30,6 +30,7 @@ import { Skeleton } from "@material-ui/lab";
 import Description from "./Description";
 import Navbar from "./Navbar";
 import History from "./History";
+require("dotenv").config();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,7 +82,8 @@ export default function CenteredGrid() {
     try {
       setIsLoading(true);
       const resp = await axios.get(
-        `https://cloud.iexapis.com/stable/stock/${symbol}/company?token=pk_b8deb498d27c4f6ab328db52163822a7`
+        `https://cloud.iexapis.com/stable/stock/${symbol}/company`,
+        { params: { token: process.env.token } }
       );
       const response = await axios.post(
         "http://localhost:8000/companyStockData",
@@ -316,6 +318,15 @@ export default function CenteredGrid() {
                 <Typography variant="h4">History</Typography>
                 <Table>
                   <TableBody>
+                    {isLoading ? (
+                      <>
+                        <Skeleton component="TableRow" />
+                        <Skeleton component="TableRow" />
+                        <Skeleton component="TableRow" />
+                        <Skeleton component="TableRow" />
+                        <Skeleton component="TableRow" />
+                      </>
+                    ) : (
                       <>
                         {history.map((item, index) => (
                           <TableRow key={index}>
@@ -323,10 +334,15 @@ export default function CenteredGrid() {
                           </TableRow>
                         ))}
                       </>
+                    )}
                   </TableBody>
                 </Table>
               </Paper>
-              <History open={draw} handleDrawerClose={handleDrawerClose} history={history} />
+              <History
+                open={draw}
+                handleDrawerClose={handleDrawerClose}
+                history={history}
+              />
             </Grid>
           </Grid>
         </Box>
