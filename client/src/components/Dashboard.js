@@ -237,7 +237,7 @@ export default function CenteredGrid() {
             <Grid item lg={8} xs={12}>
               <Paper className={classes.paper} style={{ textAlign: "center" }}>
                 <Grid container>
-                  <Grid item lg={3}>
+                  <Grid item lg={3} xs={12}>
                     <Grid container style={{ textAlign: "center" }}>
                       <Grid item lg={12}>
                         <FormControl component="fieldset">
@@ -299,7 +299,7 @@ export default function CenteredGrid() {
                     </Grid>
                   </Grid>
 
-                  <Grid item lg={9}>
+                  <Grid item lg={9} xs={12}>
                     {values && getChart()}
                   </Grid>
                   <Grid item lg={12}>
@@ -316,15 +316,6 @@ export default function CenteredGrid() {
                 <Typography variant="h4">History</Typography>
                 <Table>
                   <TableBody>
-                    {isLoading ? (
-                      <>
-                        <Skeleton component="TableRow" />
-                        <Skeleton component="TableRow" />
-                        <Skeleton component="TableRow" />
-                        <Skeleton component="TableRow" />
-                        <Skeleton component="TableRow" />
-                      </>
-                    ) : (
                       <>
                         {history.map((item, index) => (
                           <TableRow key={index}>
@@ -332,11 +323,10 @@ export default function CenteredGrid() {
                           </TableRow>
                         ))}
                       </>
-                    )}
                   </TableBody>
                 </Table>
               </Paper>
-              <History open={draw} handleDrawerClose={handleDrawerClose} />
+              <History open={draw} handleDrawerClose={handleDrawerClose} history={history} />
             </Grid>
           </Grid>
         </Box>

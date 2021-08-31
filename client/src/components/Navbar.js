@@ -1,5 +1,5 @@
 import React from "react";
-import clsx from 'clsx';
+import clsx from "clsx";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import {
   AppBar,
@@ -10,7 +10,7 @@ import {
   Paper,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from "@material-ui/icons/Menu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,10 +53,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   button: {
-      float: "right",
+    float: "right",
   },
   hide: {
-    display: 'none',
+    display: "none",
   },
 }));
 
@@ -88,19 +88,22 @@ const Navbar = (props) => {
                 await props.getDescription();
               }}
             >
-            <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="end"
-            onClick={props.handleDrawerOpen}
-            className={clsx(props.open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
               <SearchIcon className={classes.icon} />
             </IconButton>
           </Paper>
-          <Button className={classes.button} color="inherit">Logout</Button>
+
+          <Button className={classes.button} color="inherit">
+            Logout
+          </Button>
+          <Button
+            className={classes.button}
+            onClick={props.handleDrawerOpen}
+            className={clsx(props.open && classes.hide)}
+            color="inherit"
+          >
+            <MenuIcon />
+            History
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
