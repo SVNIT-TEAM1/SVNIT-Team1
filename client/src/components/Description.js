@@ -1,6 +1,30 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
-import { Link, AppBar, Tabs, Tab, Typography, Box, Table, TableBody, TableRow, TableCell } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Link,
+  AppBar,
+  Tabs,
+  Tab,
+  Typography,
+  Box,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  Chip,
+} from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
+
+const useStyles = makeStyles((theme) => ({
+  flex: {
+    display: "flex",
+    flexWrap: "wrap",
+    "& > *": {
+      marginRight: theme.spacing(1),
+    },
+  },
+}));
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -14,8 +38,8 @@ const TabPanel = (props) => {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
+        <Box p={3} pt={2}>
+          {children}
         </Box>
       )}
     </div>
@@ -23,8 +47,17 @@ const TabPanel = (props) => {
 };
 
 const Description = (props) => {
-  console.log(props);
+    // console.log(props.loading);
   const [tab, setTab] = React.useState(0);
+  const classes = useStyles();
+  const detailKeys = [
+    "symbol",
+    "companyName",
+    "exchange",
+    "industry",
+    "CEO",
+    "sector",
+  ];
 
   const handleChange = (event, newValue) => {
     setTab(newValue);
@@ -43,26 +76,46 @@ const Description = (props) => {
           aria-label="simple tabs example"
         >
           <Tab label="Description" id="Description" />
-          <Tab label="All Details" id="details" />
+          <Tab label="More Details" id="details" />
         </Tabs>
       </AppBar>
       <TabPanel value={tab} index={0}>
-        <h4>
-          <Link target="_blank" href={props.website}>
-            {props.companyName}
+        <Typography variant="h4">
+          <Link target="_blank" href={"https://" + props.website}>
+          {props.loading ? <Skeleton /> : props.companyName}
           </Link>
-        </h4>
-        <p>{props.description}</p>
+        </Typography>
+        <Typography gutterBottom>{props.loading ? <Skeleton /> : props.description}</Typography>
       </TabPanel>
       <TabPanel value={tab} index={1}>
         <Table>
           <TableBody>
-          {Object.entries(props).map(([key, value]) => (
-            <TableRow>
-              <TableCell>{key.toUpperCase()}</TableCell>
-              <TableCell>{value}</TableCell>
-            </TableRow>
-          ))}
+            {props.loading ? (
+              <>
+                <Skeleton component="TableRow" />
+                <Skeleton component="TableRow" />
+                <Skeleton component="TableRow" />
+                <Skeleton component="TableRow" />
+                <Skeleton component="TableRow" />
+              </>
+            ) : (
+              <>
+                {detailKeys.map((key, index) => (
+                  <TableRow key={key}>
+                    <TableCell>{key.toUpperCase()}</TableCell>
+                    <TableCell>{props[key]}</TableCell>
+                  </TableRow>
+                ))}
+                <TableRow>
+                  <TableCell>Tags</TableCell>
+                  <TableCell className={classes.flex}>
+                    {props.tags.map((tag, index) => (
+                      <Chip label={tag} />
+                    ))}
+                  </TableCell>
+                </TableRow>
+              </>
+            )}
           </TableBody>
         </Table>
       </TabPanel>

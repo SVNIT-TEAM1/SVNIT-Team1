@@ -11,8 +11,11 @@ const userSchema = new mongoose.Schema({
     password : {
       type : String,
       require : true,
-      unique : true
-    }
+      unique : false
+    },
+    history : [{
+        type: String,
+    }]
 });
 
 userSchema.plugin(passportLocalMongoose);

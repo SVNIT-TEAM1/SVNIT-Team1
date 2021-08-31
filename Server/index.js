@@ -8,8 +8,11 @@ const mongoose = require("mongoose");
 const session = require('express-session');
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
+require('dotenv').config();
 
 
+//app instance
+const app = express();
 
 app.use(session({
   secret: process.env.SECRET,
@@ -27,7 +30,7 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-mongoose.connect("mongodb+srv://admin-neelshah268:" + process.env.DBPASSWORD + "@cluster0.80dqt.mongodb.net/ohlc?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://neelshah268:"+ process.env.DBPASSWORD +"@cluster0.80dqt.mongodb.net/ohlc?retryWrites=true&w=majority", {
   useUnifiedTopology: true,
   useNewUrlParser: true
 });
@@ -39,12 +42,12 @@ mongoose.connect("mongodb+srv://admin-neelshah268:" + process.env.DBPASSWORD + "
 // function call to read JSONFILE
 const read = new Promise(function(resolve, reject){
     let stocks = readJSON();
-    console.log("1");
+    //console.log("1");
     resolve(stocks);
 })
 
 read.then((values) => {
-  console.log("2");
+  //console.log("2");
   var stocks = values;
   app.set("stocks", stocks);
 }).catch((err) => {
@@ -52,8 +55,7 @@ read.then((values) => {
 })
 
 
-//app instance
-const app = express();
+
 const port = process.env.PORT || 8000;
 
 app.use(morgan('dev'));
