@@ -7,7 +7,9 @@ const readJSON = require("./modules/readJSON.js");
 
 const read = new Promise(function(resolve, reject){
     let stocks = readJSON();
-    return stocks;
+    console.log("1");
+    console.log(stocks);
+    resolve(stocks);
 })
 
 let stocks = [];

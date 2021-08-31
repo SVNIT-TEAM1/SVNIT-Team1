@@ -12,18 +12,23 @@ function readJSON(){
         return stream.pipe(parser);
     };
     
-    let stockList = [];
-    
-    const read = new Promise(function(resolve, reject){
-        getStream()
+    function cb(err, data){
+        if(err!=null)
+            console.log(err);
+        else{
+            console.log("123");
+            console.log(data);
+            return data;
+        }       
+    }
+
+    getStream()
         .pipe(es.mapSync(function (data) {
-            stockList = data;
+            console.log(data);
+            console.log("123");
+            return data;
         }));
-    })
     
-
-    return stockList;
 }
-
 
 module.exports = readJSON;
