@@ -32,7 +32,7 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-mongoose.connect("mongodb+srv://neelshah268:"+ process.env.DBPASSWORD +"@cluster0.80dqt.mongodb.net/ohlc?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://"+ process.env.USERNAME +":"+ process.env.DBPASSWORD +"@cluster0.80dqt.mongodb.net/ohlc?retryWrites=true&w=majority", {
   useUnifiedTopology: true,
   useNewUrlParser: true
 });
