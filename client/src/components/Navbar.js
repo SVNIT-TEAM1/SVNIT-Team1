@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import {
   AppBar,
@@ -9,6 +10,8 @@ import {
   Paper,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import MenuIcon from "@material-ui/icons/Menu";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,11 +54,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   button: {
-      float: "right",
-  }
+    float: "right",
+  },
+  hide: {
+    display: "none",
+  },
 }));
 
 const Navbar = (props) => {
+  const history=useHistory();
   const classes = useStyles();
 
   return (
@@ -86,7 +93,22 @@ const Navbar = (props) => {
               <SearchIcon className={classes.icon} />
             </IconButton>
           </Paper>
-          <Button className={classes.button} color="inherit">Logout</Button>
+
+          <Button className={classes.button} color="inherit" onClick={()=>{
+              localStorage.removeItem('userId');
+              history.push("/");
+            }}>
+            Logout
+          </Button>
+          {/*}<Button
+            className={classes.button}
+            onClick={props.handleDrawerOpen}
+            className={clsx(props.open && classes.hide)}
+            color="inherit"
+          >
+            <MenuIcon />
+            History
+          </Button>*/}
         </Toolbar>
       </AppBar>
     </div>

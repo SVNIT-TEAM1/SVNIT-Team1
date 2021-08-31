@@ -7,7 +7,9 @@ const readJSON = require("./modules/readJSON.js");
 const mongoose = require("mongoose");
 const session = require('express-session');
 const passport = require("passport");
+const cookieParser = require("cookie-parser");
 const passportLocalMongoose = require("passport-local-mongoose");
+
 require('dotenv').config();
 
 
@@ -57,10 +59,15 @@ read.then((values) => {
 
 
 const port = process.env.PORT || 8000;
-
+app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // <-- location of the react app were connecting to
+    credentials: true,
+  })
+);
 app.use(
   bodyParser.urlencoded({
     extended: true,

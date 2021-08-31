@@ -47,7 +47,7 @@ const TabPanel = (props) => {
 };
 
 const Description = (props) => {
-    // console.log(props.loading);
+  // console.log(props.loading);
   const [tab, setTab] = React.useState(0);
   const classes = useStyles();
   const detailKeys = [
@@ -81,11 +81,24 @@ const Description = (props) => {
       </AppBar>
       <TabPanel value={tab} index={0}>
         <Typography variant="h4">
-          <Link target="_blank" href={"https://" + props.website}>
-          {props.loading ? <Skeleton /> : props.companyName}
-          </Link>
+          {props.loading ? (
+            <Skeleton />
+          ) : (
+            <Link
+              target="_blank"
+              href={
+                props.website.includes("https://")
+                  ? props.website
+                  : "https://" + props.website
+              }
+            >
+              {props.companyName}
+            </Link>
+          )}
         </Typography>
-        <Typography gutterBottom>{props.loading ? <Skeleton /> : props.description}</Typography>
+        <Typography gutterBottom>
+          {props.loading ? <Skeleton /> : props.description}
+        </Typography>
       </TabPanel>
       <TabPanel value={tab} index={1}>
         <Table>
