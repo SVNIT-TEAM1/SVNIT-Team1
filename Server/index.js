@@ -4,7 +4,39 @@ const cors=require("cors");
 const path = require("path");
 const bodyParser = require("body-parser");
 const readJSON = require("./modules/readJSON.js");
+const mongoose = require("mongoose");
+const session = require('express-session');
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
 
+
+
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: false,
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+const User = require("./modals/user.js");
+
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+mongoose.connect("mongodb+srv://admin-neelshah268:" + process.env.DBPASSWORD + "@cluster0.80dqt.mongodb.net/ohlc?retryWrites=true&w=majority", {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
+
+
+
+
+
+// function call to read JSONFILE
 const read = new Promise(function(resolve, reject){
     let stocks = readJSON();
     console.log("1");
