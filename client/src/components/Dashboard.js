@@ -29,14 +29,17 @@ export default function CenteredGrid() {
   const [values,setValues]=useState("");
   const [date,setDate]=useState("2021-08-01");
   const [range,setRange]=useState("MONTHLY");
+  const [isLoading, setIsLoading] = useState(true);
 
   const getDescription = async() =>{
     try{
+      setIsLoading(true);
       const resp = await axios.get(`https://cloud.iexapis.com/stable/stock/${symbol}/company?token=pk_b8deb498d27c4f6ab328db52163822a7`);
      const response = await axios.post('http://localhost:8000/companyStockData',{symbol,startdate:date,range});
         setDesc(resp.data);
-        console.log(response.data);
+        //console.log(response.data);
         setValues(response.data);
+        setIsLoading(false);
         setSymbol("");
     }catch(error){
       setError("Something went wrong");
@@ -109,7 +112,7 @@ return(
           <Grid item lg={8} xs={12}>
               <Grid item xs={12}>
                 <Paper className={classes.paper} style={{ textAlign: "center" }}><Box m={3}>
-                  <Description {...desc} />
+                  <Description {...desc} loading={isLoading}/>
                 </Box></Paper>
               </Grid>
             </Grid>
